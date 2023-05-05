@@ -105,7 +105,7 @@ public class Kendaraan {
                     + "Brand\t : "+getMerk()+"\n"
                     + "Production Year : "+getTahunPembuatan()+"\n"
                     + "Plat Number\t : "+getNoPlat()+"\n"
-                    + "Stroke type  : "+getJenis_tak()+"\n"
+                    + "Stroke type\t : "+getJenis_tak()+"\n"
                     + "=============================================";
         }
     }

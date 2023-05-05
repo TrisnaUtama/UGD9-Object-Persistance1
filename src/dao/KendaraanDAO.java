@@ -45,11 +45,13 @@ public class KendaraanDAO {
     public void updateData(Kendaraan k, String id){
         con = dbCon.makeConnection();
         
-        String sql = "UPDATE kendaraan SET id = " + k.getId() + 
-                ", merk = '" + k.getMerk() + 
-                "', jenis = '" + k.getJenis() + "', tahunPembuatan = " + k.getTahunPembuatan() +
-                ", noPlat = '" + k.getNoPlat() + "', jumlah_penumpang = " + k.getJumlah_penumpang()+
-                ", jenis_tak = '" + k.getJenis_tak()+ "' WHERE id = "+id+" ";
+        String sql ="UPDATE kendaraan SET merk= ' " +k.getMerk()+ " ' , "
+                + "jenis= ' " +k.getJenis()+" ' , "
+                + "tahunPembuatan=' "+k.getTahunPembuatan()+" ', "
+                + "npPlat=' "+k.getNoPlat()+" ' ,"
+                + "jumlah_penumpang= ' "+k.getJumlah_penumpang()+" ',"
+                + "jenis_tak=' "+k.getJenis_tak()+" ',"
+                + "WHERE id='" +id+ "'";
         
         System.out.println("Editing Kendaraan...");
 
@@ -100,7 +102,7 @@ public class KendaraanDAO {
             if (rs != null) {
                 while (rs.next()) {
                     Kendaraan p = new Kendaraan(rs.getString("id"), rs.getString("merk"), rs.getString("jenis"), rs.getInt("tahunPembuatan"),
-                                                rs.getString("noPlat"), rs.getInt("jumlah_penumpang"), rs.getString("jenis_tak"));
+                                       rs.getString("noPlat"), rs.getInt("jumlah_penumpang"), rs.getString("jenis_tak"));
                     list.add(p);
                 }
             }
@@ -114,5 +116,29 @@ public class KendaraanDAO {
         dbCon.closeConnection();
 
         return list;
+    }
+    
+    public Kendaraan searchKendaraan(String id){
+        String sql = "SELECT * FROM kendaraan WHERE id ='"+id+"' ";
+        System.out.println("Searching Kendaraan...");
+        Kendaraan k = null;
+        try{
+            Statement statement = con.createStatement();
+            ResultSet rs = statement.executeQuery(sql);
+            if(rs != null){
+                while(rs.next()) {
+                     k = new Kendaraan(rs.getString("id"), rs.getString("merk"), rs.getString("jenis"), rs.getInt("tahunPembuatan"),
+                             rs.getString("noPlat"), rs.getInt("jumlah_penumpang"), rs.getString("jenis_tak"));
+                }
+            }
+            rs.close();
+            statement.close();
+        }catch(Exception e){
+            System.out.println("Error reading database...");
+            System.out.println(e);
+        }
+        dbCon.closeConnection();
+        
+        return k;       
     }
 }
