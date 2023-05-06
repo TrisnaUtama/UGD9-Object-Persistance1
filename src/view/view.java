@@ -62,7 +62,7 @@ public class view extends javax.swing.JFrame {
     
     public void isEmptyException() throws IsEmptyException{
        if(idInput.getText().isEmpty() || brandVehicleinput.getText().isEmpty() || productionYearInput.getText().isEmpty() 
-               || platNumberInput.getText().isEmpty());
+               || platNumberInput.getText().isEmpty())
        throw new IsEmptyException();
     }
     
@@ -75,6 +75,35 @@ public class view extends javax.swing.JFrame {
     public void chooseTypeException() throws ChooseTypeException{
          if(!CarRBtn.isSelected() && !motorcycleRBtn.isSelected()){
             throw new ChooseTypeException();
+        }
+    }
+    
+    public void numberFormatException() throws NumberFormatException {
+        
+        // ASCII code numbers = 48 - 57;
+
+        String tempCheckProductionYear = productionYearInput.getText();
+        String tempCheckJumlahPenumpang = totalPassengerInput.getText();
+        
+        if(tempCheckProductionYear.length() != 0){
+            for(int i = 0; i<tempCheckProductionYear.length(); i++){
+                int characterCheck = tempCheckProductionYear.charAt(i);
+                
+                if(characterCheck < 48 || characterCheck > 57){
+                    throw new NumberFormatException();
+                }
+            }
+        }
+        
+        
+        if(tempCheckJumlahPenumpang.length() != 0){
+            for(int i = 0; i<tempCheckJumlahPenumpang.length(); i++){
+                int characterCheck = tempCheckJumlahPenumpang.charAt(i);
+                
+                if(characterCheck < 48 || characterCheck > 57){
+                    throw new NumberFormatException();
+                }
+            }
         }
     }
     
@@ -564,6 +593,8 @@ public class view extends javax.swing.JFrame {
     private void updateBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateBtnActionPerformed
         Kendaraan type = kc.searchDataKendaraan(searchInput.getText());
         setComponent(true);
+        searchBtn.setEnabled(false);
+        searchInput.setEnabled(false);
         idInput.setEnabled(false);
         action = "update";
         CarRBtn.setEnabled(false);
@@ -593,10 +624,12 @@ public class view extends javax.swing.JFrame {
 
     private void addBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addBtnActionPerformed
         setComponent(true);
+        buttonGroup1.clearSelection();
         totalPassengerInput.setEnabled(false);
         strokeTypeInput.setEnabled(false);
         clearTxt();
-        searchBtn.setText("");
+        searchBtn.setEnabled(false);
+        searchInput.setEnabled(false);
         action = "add";
     }//GEN-LAST:event_addBtnActionPerformed
 
@@ -604,8 +637,9 @@ public class view extends javax.swing.JFrame {
        try{
            Kendaraan k;
            InvalidIdException();
-//           isEmptyException();
+           isEmptyException();
            chooseTypeException();
+           numberFormatException();
            
            if(action.equalsIgnoreCase("add")==true){
                int getAnswer = JOptionPane.showConfirmDialog(rootPane, "Are you Sure want to adding data ?", "Confirm", JOptionPane.YES_NO_OPTION);
@@ -622,8 +656,12 @@ public class view extends javax.swing.JFrame {
                         kc.insertDataKendaraan(k);
                     }
                     JOptionPane.showMessageDialog(null, "Successfully adding data...");
+                    searchBtn.setEnabled(true);
+                    searchInput.setEnabled(true);
                }else{
                    JOptionPane.showMessageDialog(null, "Canceled Adding Data...");
+                   searchBtn.setEnabled(true);
+                   searchInput.setEnabled(true);
                }
            }else{
                int getAnswer = JOptionPane.showConfirmDialog(rootPane, "Are you Sure want to Edit data ?", "Confirm", JOptionPane.YES_NO_OPTION);
@@ -631,29 +669,36 @@ public class view extends javax.swing.JFrame {
                    if(CarRBtn.isSelected() == true){
                    k = new Kendaraan(idInput.getText(), brandVehicleinput.getText(),"Car", Integer.parseInt(productionYearInput.getText()), platNumberInput.getText()
                             ,Integer.parseInt(totalPassengerInput.getText()), "");
-                        kc.updateDataKendaraan(k, searchInput.getText());
+                        kc.updateDataKendaraan(k);
                     }else{
                         k = new Kendaraan(idInput.getText(), brandVehicleinput.getText(),"Motorcycle", Integer.parseInt(productionYearInput.getText()), platNumberInput.getText()
                             ,0, strokeTypeInput.getText());
-                            kc.updateDataKendaraan(k, searchInput.getText());
+                            kc.updateDataKendaraan(k);
                    }
                    JOptionPane.showMessageDialog(null, "Successfully Editing data...");
+                   searchBtn.setEnabled(true);
+                   searchInput.setEnabled(true);
                }else{
                    JOptionPane.showMessageDialog(null, "Canceled Editing Data...");
+                   searchBtn.setEnabled(true);
+                   searchInput.setEnabled(true);
                }
            }
            clearTxt();
            showData();
            setComponent(false);
            setEditDeleteBtn(false);
+           buttonGroup1.clearSelection();
            
            
        }catch(InvalidIDException e){
            JOptionPane.showMessageDialog(this, e.message());
-//       }catch(IsEmptyException e){
-//           JOptionPane.showMessageDialog(this, e.message());
+       }catch(IsEmptyException e){
+           JOptionPane.showMessageDialog(this, e.message());
        }catch(ChooseTypeException e){
            JOptionPane.showMessageDialog(this, e.message());
+       }catch(NumberFormatException e){
+           JOptionPane.showMessageDialog(this, "[!] Production Year dan Total Passenger Harus berupa Angka [!]");
        }catch(Exception e){
            System.out.println(e);
        }
@@ -671,7 +716,10 @@ public class view extends javax.swing.JFrame {
 
     private void cancelBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelBtnActionPerformed
         setComponent(false);
+        buttonGroup1.clearSelection();
         setEditDeleteBtn(false);
+        searchBtn.setEnabled(true);
+        searchInput.setEnabled(true);
         clearTxt();
     }//GEN-LAST:event_cancelBtnActionPerformed
 
@@ -686,11 +734,18 @@ public class view extends javax.swing.JFrame {
                 CarRBtn.setEnabled(false);
                 motorcycleRBtn.setEnabled(false);
                 JOptionPane.showMessageDialog(null, "Succesfully deleting Data...");
+                setComponent(false);
+                setEditDeleteBtn(false);
+                buttonGroup1.clearSelection();
             }catch(Exception e){
                 System.out.println(e);
             }
         }else{
             JOptionPane.showMessageDialog(null, "Cancel deleting Data...");
+            setComponent(false);
+            setEditDeleteBtn(false);
+            clearTxt();
+            buttonGroup1.clearSelection();
         }
     }//GEN-LAST:event_deleteBtnActionPerformed
 
@@ -708,7 +763,7 @@ public class view extends javax.swing.JFrame {
                platNumberInput.setText(findVehicle.getNoPlat());
                totalPassengerInput.setText(Integer.toString(findVehicle.getJumlah_penumpang()));
                strokeTypeInput.setText(findVehicle.getJenis_tak());
-               if(totalPassengerInput.getText().isEmpty()){
+               if(totalPassengerInput.getText().equals("0")){
                    motorcycleRBtn.setSelected(true);
                    CarRBtn.setSelected(false);
                }else{
