@@ -62,7 +62,7 @@ public class view extends javax.swing.JFrame {
     
     public void isEmptyException() throws IsEmptyException{
        if(idInput.getText().isEmpty() || brandVehicleinput.getText().isEmpty() || productionYearInput.getText().isEmpty() 
-               || platNumberInput.getText().isEmpty() );
+               || platNumberInput.getText().isEmpty());
        throw new IsEmptyException();
     }
     
@@ -340,7 +340,7 @@ public class view extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(searchInput, javax.swing.GroupLayout.DEFAULT_SIZE, 308, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(searchBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(searchBtn, javax.swing.GroupLayout.DEFAULT_SIZE, 92, Short.MAX_VALUE)
                 .addContainerGap())
         );
         searchPanelLayout.setVerticalGroup(
@@ -349,8 +349,8 @@ public class view extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(searchPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(searchInput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(searchBtn))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(searchBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
 
         action2Panel.setBackground(new java.awt.Color(204, 204, 204));
@@ -593,6 +593,8 @@ public class view extends javax.swing.JFrame {
 
     private void addBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addBtnActionPerformed
         setComponent(true);
+        totalPassengerInput.setEnabled(false);
+        strokeTypeInput.setEnabled(false);
         clearTxt();
         searchBtn.setText("");
         action = "add";
@@ -601,7 +603,6 @@ public class view extends javax.swing.JFrame {
     private void saveBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveBtnActionPerformed
        try{
            Kendaraan k;
-       
            InvalidIdException();
 //           isEmptyException();
            chooseTypeException();
@@ -639,7 +640,7 @@ public class view extends javax.swing.JFrame {
                    JOptionPane.showMessageDialog(null, "Successfully Editing data...");
                }else{
                    JOptionPane.showMessageDialog(null, "Canceled Editing Data...");
-            }
+               }
            }
            clearTxt();
            showData();
@@ -659,13 +660,13 @@ public class view extends javax.swing.JFrame {
     }//GEN-LAST:event_saveBtnActionPerformed
 
     private void CarRBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CarRBtnActionPerformed
-       motorcycleRBtn.setEnabled(false);
        strokeTypeInput.setEnabled(false);
+       totalPassengerInput.setEnabled(true);
     }//GEN-LAST:event_CarRBtnActionPerformed
 
     private void motorcycleRBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_motorcycleRBtnActionPerformed
-        CarRBtn.setEnabled(false);
         totalPassengerInput.setEnabled(false);
+        strokeTypeInput.setEnabled(true);
     }//GEN-LAST:event_motorcycleRBtnActionPerformed
 
     private void cancelBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelBtnActionPerformed
@@ -682,6 +683,8 @@ public class view extends javax.swing.JFrame {
                 clearTxt();
                 showData();
                 setEditDeleteBtn(false);
+                CarRBtn.setEnabled(false);
+                motorcycleRBtn.setEnabled(false);
                 JOptionPane.showMessageDialog(null, "Succesfully deleting Data...");
             }catch(Exception e){
                 System.out.println(e);

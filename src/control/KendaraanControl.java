@@ -40,7 +40,6 @@ public class KendaraanControl {
                 return dataKendaraan.get(i);
             }
         }
-        
         return null;
     }
     
@@ -65,5 +64,7 @@ public class KendaraanControl {
         }
         return tempKendaraan;
     }
+    
+ 
     
 }
