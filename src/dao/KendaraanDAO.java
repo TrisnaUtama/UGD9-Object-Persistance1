@@ -42,16 +42,16 @@ public class KendaraanDAO {
         dbCon.closeConnection();
     }
     
-    public void updateData(Kendaraan k, String id){
+    public void updateData(Kendaraan k){
         con = dbCon.makeConnection();
         
-        String sql ="UPDATE kendaraan SET merk= ' " +k.getMerk()+ " ' , "
-                + "jenis= ' " +k.getJenis()+" ' , "
-                + "tahunPembuatan=' "+k.getTahunPembuatan()+" ', "
-                + "npPlat=' "+k.getNoPlat()+" ' ,"
-                + "jumlah_penumpang= ' "+k.getJumlah_penumpang()+" ',"
-                + "jenis_tak=' "+k.getJenis_tak()+" ',"
-                + "WHERE id='" +id+ "'";
+        String sql ="UPDATE kendaraan SET merk= '" +k.getMerk()+ "',"
+                + "jenis='" +k.getJenis()+"',"
+                + "tahunPembuatan="+k.getTahunPembuatan()+","
+                + "noPlat='"+k.getNoPlat()+"',"
+                + "jumlah_penumpang="+k.getJumlah_penumpang()+","
+                + "jenis_tak='"+k.getJenis_tak()+"'"
+                + "WHERE id like '" +k.getId()+ "'";
         
         System.out.println("Editing Kendaraan...");
 
