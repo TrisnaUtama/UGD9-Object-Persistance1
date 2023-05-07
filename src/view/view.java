@@ -22,6 +22,8 @@ public class view extends javax.swing.JFrame {
 
     private KendaraanControl kc;
     String action, type;
+    private static int idMobil = 1;
+    private static int idMotor = 1;
 
     public view() {
         initComponents();
@@ -32,7 +34,7 @@ public class view extends javax.swing.JFrame {
     }
     
     public void setComponent(boolean val){
-        idInput.setEnabled(val);
+        idInput.setEnabled(false);
         brandVehicleinput.setEnabled(val);
         productionYearInput.setEnabled(val);
         platNumberInput.setEnabled(val);
@@ -173,7 +175,7 @@ public class view extends javax.swing.JFrame {
         titleLbl.setText("Object Persistance 1");
 
         namaKelompoklbl.setForeground(new java.awt.Color(0, 0, 0));
-        namaKelompoklbl.setText("Kelompok 5 :");
+        namaKelompoklbl.setText("Kelompok 6 :");
 
         anggota1Lbl.setForeground(new java.awt.Color(0, 0, 0));
         anggota1Lbl.setText("210711438");
@@ -649,11 +651,13 @@ public class view extends javax.swing.JFrame {
                     k = new Kendaraan(idInput.getText(), brandVehicleinput.getText(),type, Integer.parseInt(productionYearInput.getText()), platNumberInput.getText()
                             ,Integer.parseInt(totalPassengerInput.getText()), "");
                         kc.insertDataKendaraan(k);
+                        idMobil++;
                     }else{
                         type = "Motorcycle";
                          k = new Kendaraan(idInput.getText(), brandVehicleinput.getText(),type, Integer.parseInt(productionYearInput.getText()), platNumberInput.getText()
                             ,0, strokeTypeInput.getText());
                         kc.insertDataKendaraan(k);
+                        idMotor++;
                     }
                     JOptionPane.showMessageDialog(null, "Successfully adding data...");
                     searchBtn.setEnabled(true);
@@ -707,11 +711,13 @@ public class view extends javax.swing.JFrame {
     private void CarRBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CarRBtnActionPerformed
        strokeTypeInput.setEnabled(false);
        totalPassengerInput.setEnabled(true);
+       idInput.setText("MBL-" + Integer.toString(idMobil));
     }//GEN-LAST:event_CarRBtnActionPerformed
 
     private void motorcycleRBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_motorcycleRBtnActionPerformed
         totalPassengerInput.setEnabled(false);
         strokeTypeInput.setEnabled(true);
+        idInput.setText("MTR-" + Integer.toString(idMotor));
     }//GEN-LAST:event_motorcycleRBtnActionPerformed
 
     private void cancelBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelBtnActionPerformed
