@@ -22,8 +22,6 @@ public class view extends javax.swing.JFrame {
 
     private KendaraanControl kc;
     String action, type;
-    private static int idMobil = 1;
-    private static int idMotor = 1;
 
     public view() {
         initComponents();
@@ -112,6 +110,14 @@ public class view extends javax.swing.JFrame {
     public void showData(){
         dataCarTxa.setText(kc.showDataMobil());
         dataMotoTxa.setText(kc.showDataMotor());
+    }
+
+    public String getDataIdMobil(){
+        return kc.showDataMobil();
+    }
+
+    public String getDataIdMotor(){
+        return kc.showDataMotor();
     }
     
 
@@ -651,13 +657,11 @@ public class view extends javax.swing.JFrame {
                     k = new Kendaraan(idInput.getText(), brandVehicleinput.getText(),type, Integer.parseInt(productionYearInput.getText()), platNumberInput.getText()
                             ,Integer.parseInt(totalPassengerInput.getText()), "");
                         kc.insertDataKendaraan(k);
-                        idMobil++;
                     }else{
                         type = "Motorcycle";
                          k = new Kendaraan(idInput.getText(), brandVehicleinput.getText(),type, Integer.parseInt(productionYearInput.getText()), platNumberInput.getText()
                             ,0, strokeTypeInput.getText());
                         kc.insertDataKendaraan(k);
-                        idMotor++;
                     }
                     JOptionPane.showMessageDialog(null, "Successfully adding data...");
                     searchBtn.setEnabled(true);
@@ -711,13 +715,13 @@ public class view extends javax.swing.JFrame {
     private void CarRBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CarRBtnActionPerformed
        strokeTypeInput.setEnabled(false);
        totalPassengerInput.setEnabled(true);
-       idInput.setText("MBL-" + Integer.toString(idMobil));
+       idInput.setText("MBL-" + Integer.toString(kc.getLastIdMobil() + 1));
     }//GEN-LAST:event_CarRBtnActionPerformed
 
     private void motorcycleRBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_motorcycleRBtnActionPerformed
         totalPassengerInput.setEnabled(false);
         strokeTypeInput.setEnabled(true);
-        idInput.setText("MTR-" + Integer.toString(idMotor));
+        idInput.setText("MTR-" + Integer.toString(kc.getLastIdMotor() + 1));
     }//GEN-LAST:event_motorcycleRBtnActionPerformed
 
     private void cancelBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelBtnActionPerformed
