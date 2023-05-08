@@ -93,7 +93,7 @@ public class KendaraanDAO {
 
         System.out.println("Mengambil data kendaraan...");
         
-        List<Kendaraan> list = new ArrayList();
+        List<Kendaraan> list = new ArrayList<>();
         
         try {
             Statement statement = con.createStatement();
